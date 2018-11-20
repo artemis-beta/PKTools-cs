@@ -3,4 +3,14 @@ The C# version of the PKTools framework, a project for practicing and improving 
 
 ## Running Examples
 To build and run the examples in Linux you will need to install `mcs` compiler and `mono` for running the executables within your distribution.
-The examples are then built by running the included `build_linux.sh` script.
+The examples are then built within the repository main directory using:
+
+```
+make -j4
+```
+
+This will place the built scripts within a new directory called `executables`. To run an example use the command:
+
+```
+mono example_file.exe
+```
