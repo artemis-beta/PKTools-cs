@@ -9,7 +9,6 @@ namespace PhysicsKit
 
 		public double getVal(){return value_;}
 		public double getError(){return error_;}
-		public void Print(){Console.WriteLine("{0} +/- {1}", value_, error_);}
 		public PKVar(){value_=0; error_=0;}
 		public PKVar(double a, double b)
 		{
