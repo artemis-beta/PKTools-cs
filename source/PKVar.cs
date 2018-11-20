@@ -6,6 +6,7 @@ namespace PhysicsKit
 	{
 		double value_;
 		double error_;
+		static PKLogger _var_logger = new PKLogger("PKVAR");
 
 		public double getVal(){return value_;}
 		public double getError(){return error_;}
@@ -46,7 +47,11 @@ namespace PhysicsKit
 		public PKVar Power(double a)
 		{
 			PKVar _new = new PKVar();
-			if(value_ == 0 && a < 1){Console.WriteLine("Cannot Raise 0 to a negative power!"); Environment.Exit(1);}
+			if(value_ == 0 && a <= 0)
+			{
+				_var_logger.Error("Cannot Raise 0 to a negative power {0}!", a.ToString());
+				throw new InvalidOperationException("Invalid Matrix");
+			}
 			_new.value_ = Math.Pow(value_, a);
 			_new.error_ = a*Math.Pow(value_, a-1)*error_;
 			return _new;

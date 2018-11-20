@@ -73,9 +73,9 @@ namespace PhysicsKit
 			return temp;
 		}
 
-		public void Print()
+		public override string ToString()
 		{
-			Console.WriteLine("({0}, {1}, {2}, {3})", X[0], 
+			return string.Format("({0}, {1}, {2}, {3})", X[0], 
 					                          X[1], 
 								  X[2], 
 								  X[3]);
