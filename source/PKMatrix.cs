@@ -28,7 +28,7 @@ namespace PhysicsKit
 			List<PKVar> new_list = new List<PKVar>();
 			for(int i = 0; i < temp.Count; ++i)
 			{
-				if(!Double.IsNaN(temp[i].getError()))
+				if(temp[i] != default(PKVar))
 				{
 					new_list.Add(temp[i]);
 				}
@@ -36,6 +36,7 @@ namespace PhysicsKit
                         if(elements_.Count != 0 && new_list.Count != elements_[0].Count)
 			{
 				_matrix_logger.Error("New Row Length Does Not Match Existing Rows!");
+				throw new InvalidOperationException("Invalid Matrix");
 			}
 
 			elements_.Add(new_list);
@@ -47,6 +48,7 @@ namespace PhysicsKit
 			if(elements_.Count != 0 && row.Count != elements_[0].Count)
 			{
 				_matrix_logger.Error("New Row Length Does Not Match Existing Rows!");
+				throw new InvalidOperationException("Invalid Matrix");
 			}
 
 			elements_.Add(row);
@@ -69,7 +71,7 @@ namespace PhysicsKit
 			List<PKVar> new_list = new List<PKVar>();
 			for(int i = 0; i < temp.Count; ++i)
 			{
-				if(!elements_[i].Equals(null))
+				if(temp[i] != default(PKVar))
 				{
 					new_list.Add(temp[i]);
 				}
@@ -79,14 +81,12 @@ namespace PhysicsKit
 			{
 
 				_matrix_logger.Error("New Column Length Does Not Match Existing Columns!");
+				throw new InvalidOperationException("Invalid Matrix");
 			}
 
 			for(int i = 0; i < elements_.Count; ++i)
 			{
-				if(!elements_[i].Equals(null))
-				{
 					elements_[i].Add(new_list[i]);
-				}
 			}
 
 		}
@@ -97,6 +97,7 @@ namespace PhysicsKit
 			{
 
 				_matrix_logger.Error("New Column Length Does Not Match Existing Columns!");
+				throw new InvalidOperationException("Invalid Matrix");
 			}
 			for(int i = 0; i < elements_.Count; ++i)
 			{
@@ -105,19 +106,21 @@ namespace PhysicsKit
 		}
 
 
-		public void Print()
+		public override string ToString()
 		{
-			Console.Write("[");
+			string _out_str = "[";
 			for(int i = 0; i < elements_.Count; ++i)
 			{
 				for(int j = 0; j < elements_[i].Count; ++j)
 				{
-					Console.Write(elements_[i][j].ToString());
-					if(j+1 < elements_[0].Count){Console.Write(", ");}
-					else if(i+1 < elements_.Count){Console.WriteLine();}
+					_out_str += elements_[i][j].ToString();
+					if(j+1 < elements_[0].Count){_out_str += ", ";}
+					else if(i+1 < elements_.Count){_out_str += "\n";}
 				}
 			}
-			Console.Write("]\n");
+			_out_str += "]\n";
+
+			return _out_str;
 		}
 
 		public static PKMatrix operator+ (PKMatrix a, PKMatrix b)
@@ -126,6 +129,7 @@ namespace PhysicsKit
 			if(b.elements_.Count != a.elements_.Count && b.elements_[0].Count != a.elements_[0].Count)
 			{
 				_matrix_logger.Error("Cannot Add Matrices with Different Dimensions.");
+				throw new InvalidOperationException("Invalid Matrix");
 			}
 
 			_matrix_logger.Debug("Constructing Addition Template");
@@ -139,7 +143,7 @@ namespace PhysicsKit
 			_matrix_logger.Debug("Inserting Calculated Elements into Template");
 			for(int i = 0; i < temp.elements_.Count; ++i)
 			{
-				for(int j = 0; i < temp.elements_[0].Count; ++j)
+				for(int j = 0; j < temp.elements_[0].Count; ++j)
 				{
 					temp.elements_[i][j] = a.elements_[i][j] + b.elements_[i][j];
 				}
@@ -154,6 +158,7 @@ namespace PhysicsKit
 			if(b.elements_.Count != a.elements_.Count && b.elements_[0].Count != a.elements_[0].Count)
 			{
 				_matrix_logger.Error("Cannot Add Matrices with Different Dimensions.");
+				throw new InvalidOperationException("Invalid Matrix");
 			}
 
 			_matrix_logger.Debug("Constructing Subtraction Template");
@@ -241,6 +246,7 @@ namespace PhysicsKit
 			if(elements_[0].Count != elements_.Count)
 			{
 				_matrix_logger.Error("Trace can only be calculated for a square matrix!");
+				throw new InvalidOperationException("Invalid Matrix");
 			}
 
 			_matrix_logger.Debug("Adding Trace Components");
