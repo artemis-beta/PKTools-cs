@@ -3,7 +3,7 @@ EXAMPLES=${PWD}/examples
 SOURCE=${PWD}/source
 OUTDIR=${PWD}/executables
 
-all: lorentz matrix addvars
+all: lorentz matrix addvars triangle
 	mkdir -p ${OUTDIR}
 	mv ${EXAMPLES}/*.exe ${OUTDIR}
 
@@ -17,6 +17,10 @@ matrix:
 
 addvars:
 	${COMPILER} ${EXAMPLES}/AddPKVars.cs ${SOURCE}/*.cs
+	rm -rf ${SOURCE}/*.exe
+
+triangle:
+	${COMPILER} ${EXAMPLES}/PKTriangleExample.cs ${SOURCE}/*.cs
 	rm -rf ${SOURCE}/*.exe
 
 clean:
